@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<!--引入css文件-->
+		<link rel="stylesheet" href="css/bootstrap.min.css" />
+		<!--引入js文件顺序不能乱-->
+		<script type="text/javascript" src="js/jquery-2.1.0.js"></script>
+		<script type="text/javascript" src="js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="js/bootstrapValidator.min.js"></script>
+		<!--引入自己写的注册表单验证js文件-->
+		<script type="text/javascript" src="js/form-register.js"></script>
+		<title>注册页面</title>
+		<style type="text/css">
+			body {
+				background-color: #F7F7F7;
+			}
+			/*父容器样式*/
+			
+			.container {
+				margin-top: 120px;
+			}
+		</style>
+		<script>
+			/*			$(function() {
+					
+							//				
+							$('#username').blur(function() {
+								checkUser();
+								//验证用户是否存在
+								//					$.ajax({
+								//						
+								//						type:'get',
+								//						async:'true',
+								//						data:{name:$('#username').val()},
+								//						url:'http://172.168.1.103/register.php',
+								//						success:function(a){//成功函数
+								//							//如果>0就是存在  ，<0就是不存在
+								//							if(a>0){
+								//								$('.form-group').eq(0).addClass('has-error').removeClass('has-success');
+								//								$('#helpBlock2').text('该用户已经存在！');
+								//								$('.usericon').addClass('glyphicon-remove').removeClass('glyphicon-ok');
+								//							}else{
+								//								$('.form-group').eq(0).addClass('has-success').removeClass('has-error');
+								//								$('#helpBlock2').text('恭喜可以使用！');
+								//								$('.usericon').addClass('glyphicon-ok').removeClass('glyphicon-remove');
+								//							}
+								//							
+								//						}
+								//						
+								//						
+								//					});
+							});
+							$('#userpwd').blur(function() {
+								checkPwd();
+							});
+							$('#login-form').submit(function() {
+								if (checkUser() && checkPwd()) {
+									return true;
+								} else {
+									return false;
+								}
+							});
+						});*/
+			//bootstrapvalidator验证注册用户信息
+		</script>
+	</head>
+
+	<body>
+		<div class="container">
+			<!---->
+			<div class="row">
+				<!--左边背景-->
+				<div class="col-lg-7 visible-lg">
+					<img src="img/bg.png" />
+				</div>
+				<!--右边登录部分-->
+				<div class="login col-lg-4 col-md-10">
+					<div class="panel panel-warning">
+						<div class="panel-heading">
+							<strong>用户注册</strong>
+						</div>
+
+						<div class="panel-body">
+							<form id="regForm" action="http://www.baidu.com" method="post">
+								<!--用户名-->
+								<div class="form-group has-feedback">
+									<label class="control-label" for="username">用户名</label>
+									<input type="text" class="form-control" id="username" aria-describedby="user-msg" name="regname">
+									<span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+									<span id="user-msg" class="help-block"></span>
+								</div>
+								<!--邮箱地址-->
+								<div class="form-group has-feedback">
+									<label class="control-label" for="username">邮箱地址</label>
+									<input type="email" class="form-control" id="username" aria-describedby="user-msg" name="regemail">
+									<span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+									<span id="user-msg" class="help-block"></span>
+								</div>
+
+								<!--密码-->
+								<div class="form-group  has-feedback">
+									<label class="control-label" for="userpwd">密码</label>
+									<input type="password" class="form-control" id="userpwd" aria-describedby="pwd-msg" name="regpwd">
+									<span class="glyphicon  form-control-feedback" aria-hidden="true"></span>
+									<span id="pwd-msg" class="help-block"></span>
+								</div>
+								<!--确认密码-->
+								<div class="form-group  has-feedback">
+									<label class="control-label" for="userpwd">确认密码</label>
+									<input type="password" class="form-control" id="userpwd" aria-describedby="pwd-msg" name="regrepwd">
+									<span class="glyphicon  form-control-feedback" aria-hidden="true"></span>
+									<span id="pwd-msg" class="help-block"></span>
+								</div>
+								<div class="btn-group" role="group">
+									<button type="submit" class="btn btn-success">注册</button>
+									<a href="login.html"><button type="button" class="btn btn-info">已有帐号,登录？</button></a>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</div>
+	</body>
+
+</html>

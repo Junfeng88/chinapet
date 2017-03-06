@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<title>中国宠物官网</title>
+		<!--引入外部样式-->
+		<link rel="stylesheet" type="text/css" href="css/basic.css" />
+		<link rel="stylesheet" type="text/css" href="css/font-awesome.css" />
+		<style type="text/css">
+			
+		</style>
+		<script type="text/javascript" src="js/jquery-2.1.0.js"></script>
+		<script type="text/javascript">
+			$(function() {
+				//顶部导航条吸附和返回顶部样式
+				$(window).scroll(function(){
+					var height = $(window).scrollTop();
+					if(height >=40 && height<500){
+						$('.nav').addClass('add');
+						$('.returntop').fadeOut(1000).css('display','none');
+					}else if(height>=500){
+						$('.nav').addClass('add');
+						$('.returntop').fadeIn(1000).css('display','block');
+					}else{
+						$('.nav').removeClass('add');
+					}
+				});
+				//展开隐藏侧边栏二级菜单
+				$('.menu-list li').hover(function() {
+					$(this).find('i').show();
+					$(this).find('.submenu').stop().fadeIn(1000).show().css('box-shadow', '0px 0px 35px #717171');
+				}, function() {
+					$(this).find('i').hide();
+					$(this).find('.submenu').stop().fadeOut(1000).hide();
+				});
+				
+				
+				//中间的图片轮播实现
+				var i = 0;
+				var clone = $('.pic li').first().clone();
+				
+				$('.pic').append(clone);//完成了克隆第一张图片
+				var size = $('.pic li').size();//获取图片的数量
+				//动态添加li【注意：克隆的那张不算的，所以size-1】
+				for(var j=0;j<size-1;j++){
+					$('.btn').append('<li></li>');
+				}
+				$('.btn li:first').addClass('on');
+				//鼠标悬浮圆点事件
+				
+				$('.btn li').hover(function(){
+					var index = $(this).index();
+					i = index;
+					$('.pic').stop().animate({left:'-680'*index+'px'},1000);
+					$('.btn li').eq(index).addClass('on').siblings().removeClass('on');
+				});
+				
+				
+				//自动轮播事件
+				var t = setInterval(function(){
+					i++;
+				 	if(i==size){//i = 8
+					 	$('.pic').css('left','0px');
+					 	i = 1;
+				 	}
+				 	$('.pic').stop().animate({left:'-680'*i+'px'},1000);
+				 	$('.btn li').eq(i).addClass('on').siblings().removeClass('on');
+				},3000);
+				
+				
+				//鼠标悬浮在banner上要立即停止播放，离开banner继续播放
+				
+				$('.banner').hover(function(){
+					$('.banner .middle .left').css('background-color','rgba(0,0,0,0.7)');
+					$('.banner .middle .right').css('background-color','rgba(0,0,0,0.7)');
+					clearInterval(t);
+				},function(){
+					$('.banner .middle .left').css('background-color','rgba(0,0,0,0.2)');
+					$('.banner .middle .right').css('background-color','rgba(0,0,0,0.2)');
+					t = setInterval(moveR,3000);
+				});
+
+				//单击向右按钮事件
+				
+				 $('.banner .middle .right').click(function(){
+				 	moveR();
+				 });
+				
+				//单击向左按钮事件
+				$(' .middle .left').click(function(){
+					moveL();
+				 });
+			
+			//核心向右运动函数
+				
+				function moveR(){
+					i++;
+				 	if(i==size){//=size意思是：第8张图，第8张其实就是复制的第1张。
+					 	$('.pic').css('left','0px');
+					 	i = 1;//第1张已经显示过了，所以显示第2张就行了
+				 	}
+				 	$('.pic').stop().animate({left:'-680'*i+'px'},1000);
+				 	if(i==size-1){//size-1就是数组最后一张下标，最后1张就是第一张图片的复制品，所以第1个按钮立即变色
+				 		$('.btn li').eq(0).addClass('on').siblings().removeClass('on');
+				 	}else{
+				 		$('.btn li').eq(i).addClass('on').siblings().removeClass('on');
+				 	}
+				}
+				
+				//核心向左运动函数
+				function moveL(){
+					i--;
+					if(i==-1){
+						$('.pic').css('left','-680'*(size-1)+'px');
+						 i=size-2;
+						 
+					}//当i =-1的时候，我们要显示最后一张图片，下标是6正好第7张
+				 	$('.pic').stop().animate({left:'-680'*i+'px'},1000);
+				 	$('.btn li').eq(i).addClass('on').siblings().removeClass('on');
+				};
+				
+				//鼠标滚动到指定高度然后隐藏图片
+				$(window).scroll(function(){
+					
+				});
+				
+				//点击按钮返回顶部
+				$('.returntop').click(function(){
+					 $("html,body").animate({scrollTop:0}, 500);
+				});
+
+			});
+		</script>
+	</head>
+
+	<body>
+		<div class="nav">
+			<div class="content">
+				<ul class="left">
+					<li><a href="#"><i class="fa fa-home"></i>&nbsp;乐宠首页</a></li>
+					<li><a href="#">汪星人 </a></li>
+					<li><a href="#">喵星人</a></li>
+					<li><a href="#"><i class="fa fa-globe"></i>&nbsp;宠物家园 </a></li>
+					<li><a href="#">宠物论坛</a></li>
+					<li><a href="#">宠物百科 </a></li>
+					<li><a href="#"><i class="fa fa-shopping-cart"></i>&nbsp;宠物商城</a></li>
+					<li><a href="#"><i class="fa fa-phone"></i>&nbsp;联系我们</a></li>
+				</ul>
+				<ul class="right">
+					<li><a href="login.html"><i class="fa fa-user-circle-o"></i>&nbsp;登录</a></li>
+					<li class="register"><a href="register.html">注册</a></li>
+					<li class="shopping"><img src="img/购物车.png" />
+						<table cellpadding="0" border="0" cellspacing="0">
+							<tr>
+								<td>宠物名称</td>
+								<td>价格</td>
+								<td>购买日期</td>
+								<td>删除</td>
+
+							</tr>
+							<tr>
+								<td>拉布拉多犬</td>
+								<td class="price">￥3480</td>
+								<td>16.08.23</td>
+								<td>x</td>
+							</tr>
+							<tr>
+								<td>黑熊犬</td>
+								<td class="price">￥3480</td>
+								<td>16.08.23</td>
+								<td>x</td>
+							</tr>
+							<tr>
+								<td>萨摩耶</td>
+								<td class="price">￥3480</td>
+								<td>16.08.23</td>
+								<td>x</td>
+							</tr>
+							<tr>
+								<td>吉娃娃</td>
+								<td class="price">￥3480</td>
+								<td>16.08.23</td>
+								<td>x</td>
+							</tr>
+						</table>
+					</li>
+
+				</ul>
+			</div>
+		</div>
+		<div class="content">
+			<!--上面的LOGO广告及搜索框-->
+			<div class="header">
+				<div class="logo left">
+					<img src="img/logo.gif" class="logo" />
+				</div>
+				<div class="search left">
+					<input type="search" placeholder="请输入搜索内容" />
+				</div>
+				<div class="ad right">
+					<a href="#"><img src="img/ad.png" /></a>
+				</div>
+			</div>
+			<!--中间主体内容-->
+			<div class="banner">
+				<!--二级菜单-->
+				<ul class="menu-list left">
+					<li><a href="#">首页</a></li>
+					<li><a href="#">狗狗<i class="fa fa-angle-double-right"></i></a>
+						<!--子菜单-->
+						<div class="submenu">
+							<a href="#">狗狗商城</a>
+							<a href="#">狗狗论坛</a>
+							<a href="#">狗狗服务</a>
+							<a href="#">狗狗百科</a>
+							<a href="#">宠物狗粮</a>
+							<a href="#">狗罐头/妙鲜包</a>
+							<a href="#">狗狗零食</a>
+							<a href="#">狗狗医疗</a>
+							<a href="#">狗狗日用品</a>
+							<a href="#">狗狗美容</a>
+							<a href="#">狗狗玩具</a>
+							<a href="#">狗狗百科</a>
+							<a href="#">宠物狗粮</a>
+							<a href="#">狗罐头/妙鲜包</a>
+							<a href="#">狗狗零食</a>
+							<a href="#">狗狗医疗</a>
+							<a href="#">狗狗日用品</a>
+							<a href="#">狗狗美容</a>
+							<a href="#">狗狗玩具</a>
+							<a href="#">狗狗百科</a>
+						</div>
+					</li>
+					<li><a href="#">猫咪<i class="fa fa-angle-double-right"></i></a>
+						<!--子菜单-->
+						<div class="submenu">
+							<a href="#">宠物猫粮</a>
+							<a href="#">猫罐头/妙鲜包</a>
+							<a href="#">猫猫零食</a>
+							<a href="#">猫猫医疗</a>
+							<a href="#">猫猫保健品</a>
+							<a href="#">猫猫香波妙鲜包</a>
+							<a href="#">日常用品</a>
+							<a href="#">猫猫玩具</a>
+							<a href="#">猫猫零食</a>
+							<a href="#">猫猫医疗</a>
+							<a href="#">猫猫保健品</a>
+							<a href="#">猫猫香波妙鲜包</a>
+							<a href="#">日常用品</a>
+							<a href="#">猫衣服/猫窝</a>
+							<a href="#">美容器材</a>
+						</div>
+
+					</li>
+					<li><a href="#">小宠<i class="fa fa-angle-double-right"></i></a>
+						<!--子菜单-->
+						<div class="submenu">
+							<a href="#">小宠大全</a>
+							<a href="#">小宠饲养</a>
+							<a href="#">小宠训练</a>
+							<a href="#">小宠医疗</a>
+							<a href="#">小宠水族论坛</a>
+							<a href="#">狗罐头小宠百科妙鲜包</a>
+							<a href="#">天竺鼠用品</a>
+							<a href="#">小宠训练</a>
+							<a href="#">小宠医疗</a>
+							<a href="#">小宠水族论坛</a>
+							<a href="#">狗罐头小宠百科妙鲜包</a>
+							<a href="#">天竺鼠用品</a>
+							<a href="#">问答专区</a>
+						</div>
+					</li>
+					<li><a href="#">水族<i class="fa fa-angle-double-right"></i></a>
+						<!--子菜单-->
+						<div class="submenu">
+							<a href="#">鱼缸/水族箱</a>
+							<a href="#">鱼饲料过滤器</a>
+							<a href="#">过滤材料潜水泵</a>
+							<a href="#">氧气泵增氧配件</a>
+							<a href="#">照明器材</a>
+							<a href="#">狗罐头/妙鲜包</a>
+							<a href="#">温控设备</a>
+							<a href="#">造景装饰</a>
+							<a href="#">清洁用具</a>
+							<a href="#">杀菌灯喂食器</a>
+							<a href="#">氧气泵增氧配件</a>
+							<a href="#">照明器材</a>
+							<a href="#">狗罐头/妙鲜包</a>
+							<a href="#">温控设备</a>
+							<a href="#">造景装饰</a>
+							<a href="#">清洁用具</a>
+							<a href="#">水草肥料</a>
+							<a href="#">药水系列</a>
+						</div>
+					</li>
+					<li><a href="#">爬虫<i class="fa fa-angle-double-right"></i></a>
+						<!--子菜单-->
+						<div class="submenu">
+							<a href="#">龟粮</a>
+							<a href="#">龟箱</a>
+							<a href="#">龟缸灯具</a>
+							<a href="#">医疗保健用品</a>
+							<a href="#">造景食具</a>
+							<a href="#">躲避台/妙鲜包</a>
+							<a href="#">温控垫材配件</a>
+						</div>
+					</li>
+					<li><a href="#">宠物服务<i class="fa fa-angle-double-right"></i></a>
+						<!--子菜单-->
+						<div class="submenu">
+							<a href="#">剪毛</a>
+							<a href="#">饲养</a>
+							<a href="#">造型</a>
+							<a href="#">医疗</a>
+						</div>
+					</li>
+					<li><a href="#">宠物百科<i class="fa fa-angle-double-right"></i></a>
+						<!--子菜单-->
+						<div class="submenu">
+							<a href="#">龟粮</a>
+							<a href="#">龟箱</a>
+							<a href="#">龟缸灯具</a>
+							<a href="#">医疗保健用品</a>
+							<a href="#">造景食具</a>
+							<a href="#">躲避台/妙鲜包</a>
+							<a href="#">温控垫材配件</a>
+						</div>
+					</li>
+					<li><a href="#">宠物论坛<i class="fa fa-angle-double-right"></i></a>
+						<!--子菜单-->
+						<div class="submenu">
+							<a href="#">龟粮</a>
+							<a href="#">龟箱</a>
+							<a href="#">龟缸灯具</a>
+							<a href="#">医疗保健用品</a>
+							<a href="#">造景食具</a>
+							<a href="#">躲避台/妙鲜包</a>
+							<a href="#">温控垫材配件</a>
+						</div>
+					</li>
+					<li><a href="#">宠物救助<i class="fa fa-angle-double-right"></i></a>
+						<!--子菜单-->
+						<div class="submenu">
+							<a href="#">龟粮</a>
+							<a href="#">龟箱</a>
+							<a href="#">龟缸灯具</a>
+							<a href="#">医疗保健用品</a>
+							<a href="#">造景食具</a>
+							<a href="#">躲避台/妙鲜包</a>
+							<a href="#">温控垫材配件</a>
+						</div>
+					</li>
+				</ul>
+				<!--无缝图片轮播开始-->
+				<div class="middle left">
+					<ul class="pic">
+						<li>
+							<a href="#"><img src="img/c1.jpg" /></a>
+						</li>
+
+						<li>
+							<a href="#"><img src="img/c2.jpg" /></a>
+						</li>
+
+						<li>
+							<a href="#"><img src="img/c3.jpg" /></a>
+						</li>
+
+						<li>
+							<a href="#"><img src="img/c4.jpg" /></a>
+						</li>
+
+						<li>
+							<a href="#"><img src="img/c5.jpg" /></a>
+						</li>
+
+						<li>
+							<a href="#"><img src="img/c6.jpg" /></a>
+						</li>
+
+						<li>
+							<a href="#"><img src="img/c7.jpg" /></a>
+						</li>
+						<li>
+							<a href="#"><img src="img/c8.jpg" /></a>
+						</li>
+					</ul>
+
+					<!--动态添加的li根据图片的数量-->
+					<ul class="btn"></ul>
+					<div class="left">&lt;</div>
+					<div class="right">&gt;</div>
+
+				</div>
+				<!--无缝图片轮播结束-->
+				<div class="right">
+					<div class="up">
+						<div class="title">
+							<span class="left"><a href="#">新闻</a></span>
+							<span class="right"><a href="#">更多&gt;</a></span>
+						</div>
+						<div class="news">
+							<ul class="news">
+								<li><a href="#"><i class="fa fa-arrows-alt fa-spin"></i>&nbsp;炎炎夏日，关于拉布拉多犬的日常清洁护理</a></li>
+								<li><a href="#"><i class="fa fa-arrows-alt"></i>&nbsp;广西哪里有卖比特犬</a></li>
+								<li><a href="#"><i class="fa fa-arrows-alt"></i>&nbsp;东莞哪里有卖巴哥犬纯种巴哥价格</a></li>
+								<li><a href="#"><i class="fa fa-arrows-alt"></i>&nbsp;广东最大狗场出售阿拉斯加幼犬多窝可挑选 可</a></li>
+								<li><a href="#"><i class="fa fa-arrows-alt"></i>&nbsp;出售各种宠物狗</a></li>
+								<li><a href="#"><i class="fa fa-arrows-alt"></i>&nbsp;纯种健康吉娃娃有纯种的黄白花的欢迎挑选</a></li>
+								<li><a href="#"><i class="fa fa-arrows-alt"></i>&nbsp;易仕顿宠物用品离子钙（喷剂）厂家招商</a></li>
+								<li><a href="#"><i class="fa fa-arrows-alt"></i>&nbsp;“黑熊犬”出售价格跌破2000元</a></li>
+								<li><a href="#"><i class="fa fa-arrows-alt"></i>&nbsp;广东最大狗场出售阿拉斯加幼犬多窝可挑选 可</a></li>
+								<li><a href="#"><i class="fa fa-arrows-alt"></i>&nbsp;出售各种宠物狗</a></li>
+								<li><a href="#"><i class="fa fa-arrows-alt"></i>&nbsp;纯种健康吉娃娃有纯种的黄白花的欢迎挑选</a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="main">
+			<div class="content">
+				<!--顶部-->
+				<div class="top">
+					<div class="left">
+						<ul class="left-title">
+							<li><strong>最新宠物</strong></li>
+							<li>宠物名称</li>
+							<li>售卖日期</li>
+							<li>售卖价格</li>
+							<li></li>
+						</ul>
+					</div>
+					<div class="right">
+						<ul>
+							<li>宠物狗</li>
+							<li>哈士奇</li>
+							<li>2016-08-28</li>
+							<li>4980元</li>
+							<li><a href="#">查看详情</a></li>
+						</ul>
+						<ul>
+							<li>宠物猫</li>
+							<li>波斯猫</li>
+							<li>2016-08-28</li>
+							<li>9980元</li>
+							<li><a href="#">查看详情</a></li>
+						</ul>
+						<ul>
+							<li>独家小宠</li>
+							<li>虎皮鹦鹉</li>
+							<li>2016-08-28</li>
+							<li>21980元</li>
+							<li><a href="#">查看详情</a></li>
+						</ul>
+						<ul>
+							<li>水中一族</li>
+							<li>罗汉鱼</li>
+							<li>2016-08-28</li>
+							<li>6980元</li>
+							<li><a href="#">查看详情</a></li>
+						</ul>
+						<ul>
+							<li>爬虫地带</li>
+							<li>非洲侏儒鳄</li>
+							<li>2016-08-28</li>
+							<li>12980元</li>
+							<li><a href="#">查看详情</a></li>
+						</ul>
+						<ul>
+							<li>危险宠物</li>
+							<li>眼镜王蛇</li>
+							<li>2016-08-28</li>
+							<li>49980元</li>
+							<li><a href="#">查看详情</a></li>
+						</ul>
+						<div class="watchmore">
+							<span><a href="#">浏览更多</a>
+									<a href="#">热门宠物</a></span>
+							<div class="more"></div>
+						</div>
+					</div>
+				</div>
+				<!--中间-->
+				<div class="middle">
+					<div class="top">
+						<span>名宠介绍</span>
+						<span><a href="#">宠物狗</a></span>
+						<span><a href="#">宠物猫</a></span>
+						<span><a href="#">水中一族</a></span>
+						<span><a href="#">爬虫地带</a></span>
+						<span><a href="#">独家小宠</a></span>
+					</div>
+					<div class="bottom">
+						<div class="left">
+							<a href="#">
+								<img src="img/ronghou.jpg" class="attackers" />
+							</a>
+							<div class="author">
+								<span>绒猴</span><br/>
+								<span>五四成</span>
+								<span>付汇会</span>
+							</div>
+							<a href="#">
+								<img src="img/ronghou.jpg" class="pethead" />
+							</a>
+							<span class="comment">
+										<a href="#">20000人点评</a>
+							</span>
+						</div>
+						<div class="left">
+							<a href="#">
+								<img src="img/hupiyingwu1.jpg" class="attackers" />
+							</a>
+							<div class="author">
+								<span>虎皮鹦鹉</span><br/>
+								<span>五四成</span>
+								<span>付汇会</span>
+							</div>
+							<a href="#">
+								<img src="img/hupiyingwu1.jpg" class="pethead" />
+							</a>
+							<span class="comment">
+										<a href="#">20000人点评</a>
+							</span>
+						</div>
+						<div class="left">
+							<a href="#">
+								<img src="img/xiaofengtou.jpg" class="attackers" />
+							</a>
+							<div class="author">
+								<span>凤头鹦鹉</span><br/>
+								<span>五四成</span>
+								<span>付汇会</span>
+							</div>
+							<a href="#">
+								<img src="img/xiaofengtou.jpg" class="pethead" />
+							</a>
+							<span class="comment">
+										<a href="#">20000人点评</a>
+									</span>
+						</div>
+						<div class="left">
+							<a href="#">
+								<img src="img/chuiertu.png" class="attackers" />
+							</a>
+							<div class="author">
+								<span>垂耳兔</span><br/>
+								<span>五四成</span>
+								<span>付汇会</span>
+							</div>
+							<a href="#">
+								<img src="img/chuiertu.png" class="pethead" />
+							</a>
+							<span class="comment">
+										<a href="#">20000人点评</a>
+							</span>
+						</div>
+						<div class="left">
+							<a href="#">
+								<img src="img/angelatu.jpg" class="attackers" />
+							</a>
+							<div class="author">
+								<span>安哥拉兔</span><br/>
+								<span>五四成</span>
+								<span>付汇会</span>
+							</div>
+							<a href="#">
+								<img src="img/angelatu.jpg" class="pethead" />
+							</a>
+							<span class="comment">
+										<a href="#">20000人点评</a>
+							</span>
+						</div>
+						<div class="left">
+							<a href="#">
+								<img src="img/buding.jpg" class="attackers" />
+							</a>
+							<div class="author">
+								<span>布丁仓鼠</span><br/>
+								<span>五四成</span>
+								<span>付汇会</span>
+							</div>
+							<a href="#">
+								<img src="img/ribenxiuzhenhou.jpg" class="pethead" />
+							</a>
+							<span class="comment">
+										<a href="#">20000人点评</a>
+							</span>
+						</div>
+						<div class="left">
+							<a href="#">
+								<img src="img/ribenxiuzhenhou.jpg" class="attackers" />
+							</a>
+							<div class="author">
+								<span>日本袖珍猴</span><br/>
+								<span>五四成</span>
+								<span>付汇会</span>
+							</div>
+							<a href="#">
+								<img src="img/sanxiancangshu.jpg" class="pethead" />
+							</a>
+							<span class="comment">
+										<a href="#">20000人点评</a>
+							</span>
+						</div>
+						<div class="left">
+							<a href="#">
+								<img src="img/sanxiancangshu.jpg" class="attackers" />
+							</a>
+							<div class="author">
+								<span>三线仓鼠</span><br/>
+								<span>五四成</span>
+								<span>付汇会</span>
+							</div>
+							<a href="#">
+								<img src="img/sanxiancangshu.jpg" class="pethead" />
+							</a>
+							<span class="comment">
+										<a href="#">20000人点评</a>
+							</span>
+						</div>
+						<div class="left">
+							<a href="#">
+								<img src="img/biaozhunhuilong.jpg" class="attackers" />
+							</a>
+							<div class="author">
+								<span>标准龙猫</span><br/>
+								<span>五四成</span>
+								<span>付汇会</span>
+							</div>
+							<a href="#">
+								<img src="img/biaozhunhuilong.jpg" class="pethead" />
+							</a>
+							<span class="comment">
+										<a href="#">20000人点评</a>
+							</span>
+						</div>
+						<div class="left">
+							<a href="#">
+								<img src="img/chunbai.jpg" class="attackers" />
+							</a>
+							<div class="author">
+								<span>纯白龙猫</span><br/>
+								<span>五四成</span>
+								<span>付汇会</span>
+							</div>
+							<a href="#">
+								<img src="img/chunbai.jpg" class="pethead" />
+							</a>
+							<span class="comment">
+										<a href="#">20000人点评</a>
+							</span>
+						</div>
+					</div>
+				</div>
+				<!--底部宠物百科-->
+				<div class="pet">
+					<p><strong>宠物百科</strong></p>
+					<div class="petInfo">
+						<div class="left">
+							<a href="#"><img src="img/labuladuoquan.jpg" /></a>
+							<div class="tname">
+								<span><strong>拉布拉多犬</strong></span>
+							</div>
+						</div>
+						<div class="left">
+							<a href="#"><img src="img/bosimao.jpg" /></a>
+							<div class="tname">
+								<span><strong>波斯猫</strong></span>
+							</div>
+						</div>
+						<div class="left">
+							<a href="#"><img src="img/hupi.jpg" /></a>
+							<div class="tname">
+								<span><strong>虎皮鹦鹉</strong></span>
+							</div>
+						</div>
+						<div class="left">
+							<a hhref="#"><img src="img/shizitou.png" /></a>
+							<div class="tname">
+								<span><strong>红色狮子头</strong></span>
+							</div>
+						</div>
+						<div class="left">
+							<a href="#"><img src="img/zhonghuacaogui.jpg" /></a>
+							<div class="tname">
+								<span><strong>中华草龟</strong></span>
+							</div>
+						</div>
+						<div class="left">
+							<a href="#"><img src="img/labuladuoquan.jpg" /></a>
+							<div class="tname">
+								<span><strong>拉布拉多犬</strong></span>
+							</div>
+						</div>
+						<div class="left">
+							<a href="#"><img src="img/hupi.jpg" /></a>
+							<div class="tname">
+								<span><strong>虎皮鹦鹉</strong></span>
+							</div>
+						</div>
+						<div class="left">
+							<a hhref="#"><img src="img/shizitou.png" /></a>
+							<div class="tname">
+								<span><strong>红色狮子头</strong></span>
+							</div>
+						</div>
+						<div class="left">
+							<a href="#"><img src="img/zhonghuacaogui.jpg" /></a>
+							<div class="tname">
+								<span><strong>中华草龟</strong></span>
+							</div>
+						</div>
+						<div class="left">
+							<a href="#"><img src="img/bosimao.jpg" /></a>
+							<div class="tname">
+								<span><strong>波斯猫</strong></span>
+							</div>
+						</div>
+						
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- 公司地址及联系电话-->
+		<div class="chinapet">
+			<div class="content">
+				<img src="img/bottom-info.png" />
+			</div>
+		</div>
+		<!--学校介绍-->
+		<div class="jieshao">
+			<div class="content">
+				<div class="left">
+					<ul>
+						<li>购物流程</li>
+						<li><a href="#">现金账户</a></li>
+						<li><a href="#">优惠券</a></li>
+						<li><a href="#">订单查询</a></li>
+						<li><a href="#">服务协议</a></li>
+					</ul>
+					<ul>
+						<li>配送方式</li>
+						<li><a href="#">收费标准</a></li>
+						<li><a href="#">配送方式</a></li>
+						<li><a href="#">配送时间</a></li>
+					</ul>
+					<ul>
+						<li>综合板块</li>
+						<li><a href="#">救助•领养</a></li>
+						<li><a href="#">中国宠物秀</a></li>
+						<li><a href="#">活动|公告</a></li>
+						<li><a href="#">常见问答</a></li>
+					</ul>
+					<ul>
+						<li>宠物论坛</li>
+						<li><a href="#">上海宠物论坛</a></li>
+						<li><a href="#">苏州宠物论坛</a></li>
+						<li><a href="#">杭州宠物论坛</a></li>
+					</ul>
+					<ul>
+						<li>友情链接</li>
+						<li><a href="#">返利网</a></li>
+						<li><a href="#">钓鱼网</a></li>
+						<li><a href="#">有宠网</a></li>
+						<li><a href="#">妆炫网</a></li>
+						<li><a href="#">中国养兔网</a></li>
+					</ul>
+				</div>
+				<div class="right">
+					<div class="call">
+						<span>400-811-8888</span>
+						<span>周一至周五 9:00-21:00</span>
+						<span>周六至周日 9:00-20:00</span>
+					</div>
+					<!--图片了-->
+					<div class="callme">
+						<p>24小时在线客服</p>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="footer">
+			<div class="content">
+				<div class="left">
+					<div class="footerInfo">
+						<p>
+							<a href="#">中国宠物网</a>|
+							<a href="#">新浪宠物 </a>|
+							<a href="#"> 百度贴吧</a>|
+							<a href="#">宠物领养</a>|
+							<a href="#">English</a>|
+							<a href="#">天猫商场</a>|
+							<span>© 2016 www.chinapet.com.cn 中国宠物网 版权所有 沪ICP备123456789</span>
+						</p>
+
+					</div>
+				</div>
+				<!--页脚右边内容-->
+				<div class="right">
+					<a href="#"><img src="img/company.png" /></a>
+				</div>
+			</div>
+			<img src="img/returntop.png" class="returntop" title="返回顶部"/></div>
+		</div>
+	</body>
+
+</html>
